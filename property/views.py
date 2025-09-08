@@ -25,7 +25,7 @@ def show_flats(request):
     if max_price:
         flats = flats.filter(price__lt=max_price)
     if new_building:
-        flats = flats.filter(construction_year__gte=2015)
+        flats = flats.filter(new_building=new_building)
 
     towns = Flat.objects.values_list(
         'town', flat=True).distinct().order_by('town')
