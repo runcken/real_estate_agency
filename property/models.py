@@ -112,10 +112,9 @@ class Owner(models.Model):
         null=True,
         verbose_name='Нормализованный номер владельца'
     )
-    owner_flat = models.ForeignKey(
+    owner_flat = models.ManyToManyField(
         Flat,
-        on_delete=models.SET_NULL,
         null=True,
-        verbose_name='ФИО владельца',
+        verbose_name='Квартиры в собственности',
         related_name='flats'
         )
