@@ -21,10 +21,12 @@ class FlatAdmin(admin.ModelAdmin):
 
 class ComplaintAdmin(admin.ModelAdmin):
     raw_id_fields = ['who_complained', 'flat_complained']
+    list_display = ['flat_complained', 'who_complained']
 
 
 class OwnerAdmin(admin.ModelAdmin):
     raw_id_fields = ['owner_flat']
+    list_display = ['owner_name']
 
 
 admin.site.register(Flat, FlatAdmin)
