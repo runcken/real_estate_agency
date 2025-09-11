@@ -6,7 +6,7 @@ from django.db import migrations
 def migrate_db_field(apps, schema_editor):
     Owner = apps.get_model('property', 'Owner')
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator(chunk_size=1000):
         Owner.objects.get_or_create(name=flat.owner)
 
 

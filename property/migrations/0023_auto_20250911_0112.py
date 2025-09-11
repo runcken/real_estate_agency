@@ -6,7 +6,7 @@ from django.db import migrations
 def fill_db_fields(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator(chunk_size=1000):
         owner, created = Owner.objects.get_or_create(name=flat.owner)
         if not created:
             if not owner.phonenumber:

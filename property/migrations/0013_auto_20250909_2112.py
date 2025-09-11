@@ -7,17 +7,17 @@ from phonenumbers import PhoneNumberFormat
 
 def migrate_phones(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for obj in Flat.objects.all():
-        phone_number =  phonenumbers.parse(
-            obj.owners_phonenumber,
-            'RU'
-        )
-        if phonenumbers.is_valid_number(phone_number):
-            obj.owner_pure_phone = phone_number
-            obj.save()
-        else:
-            obj.owner_pure_phone = None
-            obj.save()
+    for obj in Flat.objects.all().iterator(chunk_size=1000):
+        if obj.owners_phonenumber:
+            try:
+                phone_number =  phonenumbers.parse(
+                    obj.owners_phonenumber,
+                    'RU'
+                )
+                obj.owner_pure_phone = phone_number
+                obj.save()
+            except:
+                continue
 
 
 class Migration(migrations.Migration):
